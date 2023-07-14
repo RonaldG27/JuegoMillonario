@@ -8,6 +8,8 @@ public class Configuracion {
 	private ArrayList<Termino> lista_terminos = new ArrayList<>();
 	private ArrayList<Materia> lista_materias = new ArrayList<>();
 
+	private ArrayList<Paralelo> lista_paralelos = new ArrayList<>();
+
 	private Termino termJuego;
 
 	Scanner sc = new Scanner(System.in);
@@ -148,8 +150,10 @@ public class Configuracion {
 			editMateria();
 			return true;
 		case 3:
+			agregarParalelo();
 			return true;
 		case 4:
+			eliminarParalelo();
 			return true;
 		case 5:
 			return false;
@@ -196,6 +200,71 @@ public class Configuracion {
 		Materia materia2 = new Materia(codigo, nombre, nivel);
 
 		lista_materias.set(indice - 1, materia2);
+
+	}
+
+	public void agregarParalelo() {
+
+		System.out.println("Seleccione una Materia:");
+		mostrarMateria();
+		int index1 = sc.nextInt();
+		sc.nextLine();
+
+		System.out.println("Seleccione un Termino:");
+		mostrarTerminos();
+		int index2 = sc.nextInt();
+		sc.nextLine();
+
+		Materia materia = lista_materias.get(index1 - 1);
+		Termino termino = lista_terminos.get(index2 - 1);
+
+		System.out.println("Ingrese el numero del paralelo: ");
+		int numParalelo = sc.nextInt();
+		sc.nextLine();
+
+		ArrayList<Participante> participantes = agregarEstudiantes();
+
+		Paralelo paralelo = new Paralelo(materia, termino, numParalelo, participantes);
+
+		lista_paralelos.add(paralelo);
+
+	}
+
+	public ArrayList<Participante> agregarEstudiantes() {
+
+		ArrayList<Participante> participantes = new ArrayList<>();
+
+		participantes.add(new Participante(202104816, "AZU PERLAZA NICOLE FERNANDA", "nfazu@espol.edu.ec"));
+		participantes.add(new Participante(202100772, "GUAMAN QUIJIJE RONALD STEVEN", "rsguaman@espol.edu.ec"));
+		participantes.add(new Participante(202100772, "GUAMAN QUIJIJE RONALD STEVEN", "rsguaman@espol.edu.ec"));
+		participantes.add(new Participante(202006086, "CABRERA VIVANCO ALVARO DAVID", "alvdcabr@espol.edu.ec"));
+		participantes.add(new Participante(20207924, "RIVAS ABAD BRAULIO DE JESUS", "brarabad@espol.edu.ec"));
+		participantes.add(new Participante(202106050, "ZAMORA CEDEÑO JORDY STEVEN", "jszamora@espol.edu.ec"));
+
+		return participantes;
+
+	}
+
+	public void eliminarParalelo() {
+		mostrarParalelo();
+
+		System.out.println("Ingrese el Paralelo a eliminar");
+		int index = sc.nextInt();
+		sc.nextLine();
+
+		lista_paralelos.remove(index - 1);
+
+	}
+
+	public void mostrarParalelo() {
+		System.out.println("Mostrando paralelos");
+		int i = 0;
+
+		for (Paralelo par : lista_paralelos) {
+			System.out.println(i + ".- El paralelo " + par.getNumParalelo());
+			System.out.println(par.getParticipantes());
+			i++;
+		}
 
 	}
 
