@@ -191,4 +191,8 @@ public class Configuracion {
 
 	}
 
+	public void hol() {
+		System.out.println("ola");
+	}
+
 }
