@@ -12,7 +12,6 @@ public class Configuracion {
 
 	// Configuracion menuTermino
 	public boolean menuTermino() {
-		System.out.println("Lista de Terminos academicos: ");
 		mostrarTerminos();
 
 		System.out.println("\nMENU:" + "\n1. Ingresar Termino" + "\n2. Editar Termino"
@@ -25,11 +24,18 @@ public class Configuracion {
 			System.out.println("-- INGRESE EL TERMINO--");
 			Termino termino = new Termino();
 
-			if (termJuego != null) {
-				while (!comprobarTermino(termino)) {
+			if (termJuego == null) {
+				// System.out.println(comprobarTerminoAnioRepetido(termino));
+				while (!comprobarTerminoAnioRepetido(termino)) {
 					termino = new Termino();
 				}
+			} else {
+				// System.out.println(comprobarTerminoAnioRepetido(termino) + " " +
+				// comprobarTerminoAnioMenor(termino));
 
+				while (!comprobarTerminoAnioRepetido(termino) || !comprobarTerminoAnioMenor(termino)) {
+					termino = new Termino();
+				}
 			}
 			ingresarTermino(termino);
 			return true;
@@ -38,6 +44,8 @@ public class Configuracion {
 			return true;
 		case 3:
 			termJuego = seleccionarTermino();
+			// System.out.println("IMPRIMIENDO Term juego");
+			// System.out.println(termJuego.getAnio() + " " + termJuego.getNumeroTermin());
 			return true;
 		case 4:
 			return false;
@@ -49,11 +57,16 @@ public class Configuracion {
 	}
 
 	public void mostrarTerminos() {
-		System.out.println("\nLista de términos académicos:");
-		for (int i = 0; i < lista_terminos.size(); i++) {
-			int indice = i + 1;
-			System.out.println(
-					indice + ". " + lista_terminos.get(i).getAnio() + "-" + lista_terminos.get(i).getNumeroTermin());
+		System.out.println("Lista de Terminos academicos: ");
+
+		if (lista_terminos.size() == 0) {
+			System.out.println("----Lista Vacia----");
+		} else {
+			for (int i = 0; i < lista_terminos.size(); i++) {
+				int indice = i + 1;
+				System.out.println(indice + ". " + lista_terminos.get(i).getAnio() + "-"
+						+ lista_terminos.get(i).getNumeroTermin());
+			}
 		}
 	}
 
@@ -62,25 +75,33 @@ public class Configuracion {
 
 	}
 
-	public boolean comprobarTermino(Termino termino) {
+	public boolean comprobarTerminoAnioRepetido(Termino termino) {
 
 		int anio = termino.getAnio();
 		int num = termino.getNumeroTermin();
 
 		boolean repetido = false;
 		for (Termino term : lista_terminos) {
-			if (term.getAnio() == anio) {
+			if (term.getAnio() == anio && term.getNumeroTermin() == num) {
 				repetido = true;
 			}
 		}
 
-		if (!repetido && anio < termJuego.getAnio()) {
+		if (!repetido) {
 			return true;
 		}
-
 		return false;
 
-		// Validaqr que no sea menor al actual
+	}
+
+	public boolean comprobarTerminoAnioMenor(Termino termino) {
+		int anio = termino.getAnio();
+
+		if (anio > termJuego.getAnio()) {
+			return true;
+		}
+		return false;
+
 	}
 
 	public void editarTermino() {
