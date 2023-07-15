@@ -258,7 +258,7 @@ public class Configuracion {
 
 	public void mostrarParalelo() {
 		System.out.println("Mostrando paralelos");
-		int i = 0;
+		int i = 1;
 
 		for (Paralelo par : lista_paralelos) {
 			System.out.println(i + ".- El paralelo " + par.getNumParalelo());
@@ -294,38 +294,47 @@ public class Configuracion {
 	}
 
 	public void visualizarPregunta() {
+		System.out.println("Lista de Materias con sus preguntas : ");
 
-		if (posiblesPreguntas != null) {
-			int i = 1;
-			for (Pregunta pregunta : posiblesPreguntas) {
-				System.out.println(i + ".- " + pregunta);
-				i += 1;
-			}
+		if (lista_materias.size() == 0) {
+			System.out.println("----Lista Vacia----");
 		} else {
-			System.out.println("No hay preguntas");
+			for (int i = 0; i < lista_materias.size(); i++) {
+				int indice = i + 1;
+				System.out.println(indice + ". " + lista_materias.get(i).getCodigo() + "-"
+						+ lista_materias.get(i).getNombre() + "-" + lista_materias.get(i).getNumNiveles());
+				lista_materias.get(i).mostrarPreguntas();
+			}
 		}
 
 	}
 
 	public void agregarPregunta(Pregunta pregunta) {
-		if (posiblesPreguntas == null) {
-			posiblesPreguntas = new ArrayList<>();
-		}
-		System.out.println(pregunta);
-		posiblesPreguntas.add(pregunta);
+		mostrarMateria();
+		System.out.println("Seleccione la materia que desea agregrar la pregunta:");
+		int index = sc.nextInt();
+		sc.nextLine();
+
+		Materia materia = lista_materias.get(index - 1);
+		materia.addPreguntas(pregunta);
 
 	}
 
 	public void eliminarPregunta() {
-		visualizarPregunta();
+		mostrarMateria();
 
-		int size = posiblesPreguntas.size();
-
-		System.out.println("Cual de las estas " + size + " preguntas sea eliminar, ingrese el numero: ");
+		System.out.println("Seleccione la materia que la cual desea eliminar una pregunta:");
 		int index = sc.nextInt();
 		sc.nextLine();
 
-		posiblesPreguntas.remove(index - 1);
+		Materia materia = lista_materias.get(index - 1);
+
+		materia.mostrarPreguntas();
+		System.out.println("Seleccione la pregunta que quiere eliminar :");
+		int index2 = sc.nextInt();
+		sc.nextLine();
+
+		materia.eliminarPregunta(index2);
 
 	}
 

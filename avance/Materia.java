@@ -1,11 +1,14 @@
 package avance;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Materia {
 	private String codigo;
 	private String nombre;
 	private int numNiveles;
+
+	private ArrayList<Pregunta> preguntas = new ArrayList<>();
 	Scanner sc = new Scanner(System.in);
 
 	public Materia() {
@@ -45,6 +48,27 @@ public class Materia {
 
 	public void setNumNiveles(int numNiveles) {
 		this.numNiveles = numNiveles;
+	}
+
+	public void addPreguntas(Pregunta pregunta) {
+		preguntas.add(pregunta);
+
+	}
+
+	public void mostrarPreguntas() {
+		if (preguntas != null) {
+			int i = 1;
+			for (Pregunta pregunta : preguntas) {
+				System.out.println(i + ".- " + pregunta);
+				i += 1;
+			}
+		} else {
+			System.out.println("No hay preguntas para mostrar");
+		}
+	}
+
+	public void eliminarPregunta(int index) {
+		preguntas.remove(index - 1);
 	}
 
 }
