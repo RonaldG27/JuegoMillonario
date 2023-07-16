@@ -42,7 +42,30 @@ public class Pregunta {
 
 	@Override
 	public String toString() {
-		return "Pregunta [enunciado=" + enunciado + ", respuestaCorrecta=" + respuestaCorrecta + "]";
+		return "Pregunta [enunciado=" + enunciado + ", respuestaCorrecta= " + respuestaCorrecta + ", respuestaIncorrecta1= "+ respuestaInco1+"respuestaIncorrecta2= " +respuestaInco2+", respuestaIncorrecta3= "+"respuestaInco3"+"]";
+	}
+// getters 
+	public String getEnunciado() {
+		return enunciado;
+	}
+	
+	public int getNivel() {
+		return nivel;
+	}
+	public String getRespuestaCorrecta() {
+		return respuestaCorrecta;
+	}
+
+	public String getRespuestaInco2() {
+		return respuestaInco2;
+	}
+
+	public String getRespuestaInco3() {
+		return respuestaInco3;
+	}
+
+	public String getRespuestaInco1() {
+		return respuestaInco1;
 	}
 
 }

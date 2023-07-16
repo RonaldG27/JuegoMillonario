@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Configuracion {
-	private ArrayList<Pregunta> posiblesPreguntas;
 	private ArrayList<Termino> lista_terminos = new ArrayList<>();
 	private ArrayList<Materia> lista_materias = new ArrayList<>();
-
 	private ArrayList<Paralelo> lista_paralelos = new ArrayList<>();
 
 	private Termino termJuego;
@@ -234,12 +232,12 @@ public class Configuracion {
 
 		ArrayList<Participante> participantes = new ArrayList<>();
 
-		participantes.add(new Participante(202104816, "AZU PERLAZA NICOLE FERNANDA", "nfazu@espol.edu.ec"));
-		participantes.add(new Participante(202100772, "GUAMAN QUIJIJE RONALD STEVEN", "rsguaman@espol.edu.ec"));
-		participantes.add(new Participante(202100772, "GUAMAN QUIJIJE RONALD STEVEN", "rsguaman@espol.edu.ec"));
-		participantes.add(new Participante(202006086, "CABRERA VIVANCO ALVARO DAVID", "alvdcabr@espol.edu.ec"));
-		participantes.add(new Participante(20207924, "RIVAS ABAD BRAULIO DE JESUS", "brarabad@espol.edu.ec"));
-		participantes.add(new Participante(202106050, "ZAMORA CEDEÑO JORDY STEVEN", "jszamora@espol.edu.ec"));
+		participantes.add(new Participante(202104816,"AZU PERLAZA NICOLE FERNANDA", "nfazu@espol.edu.ec"));
+		participantes.add(new Participante(202100772,"GUAMAN QUIJIJE RONALD STEVEN", "rsguaman@espol.edu.ec"));
+		participantes.add(new Participante(202207726,"POVEDA QUIMIZ MICHAEL CRESCENCIO","mcpoveda@espol.edu.ec"));
+		participantes.add(new Participante(202006086,"CABRERA VIVANCO ALVARO DAVID", "alvdcabr@espol.edu.ec"));
+		participantes.add(new Participante(20207924,"RIVAS ABAD BRAULIO DE JESUS", "brarabad@espol.edu.ec"));
+		participantes.add(new Participante(202106050,"ZAMORA CEDEÑO JORDY STEVEN", "jszamora@espol.edu.ec"));
 
 		return participantes;
 
@@ -336,6 +334,10 @@ public class Configuracion {
 
 		materia.eliminarPregunta(index2);
 
+	}
+
+	public ArrayList<Materia> getLista_materias() {
+		return lista_materias;
 	}
 
 }

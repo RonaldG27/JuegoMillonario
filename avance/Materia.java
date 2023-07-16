@@ -7,8 +7,8 @@ public class Materia {
 	private String codigo;
 	private String nombre;
 	private int numNiveles;
-
-	private ArrayList<Pregunta> preguntas = new ArrayList<>();
+	
+	public ArrayList<Pregunta> preguntas = new ArrayList<>();
 	Scanner sc = new Scanner(System.in);
 
 	public Materia() {
@@ -53,6 +53,9 @@ public class Materia {
 	public void addPreguntas(Pregunta pregunta) {
 		preguntas.add(pregunta);
 
+	}
+	public ArrayList<Pregunta> getPreguntas(){
+		return preguntas;
 	}
 
 	public void mostrarPreguntas() {

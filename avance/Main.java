@@ -40,7 +40,11 @@ public class Main {
 			opcion = sc.nextInt();
 			sc.nextLine();
 		}
-
+		Juego juego = new Juego(configuracion);
+		juego.iniciarJuego();
+		
+		
 	}
+	
 
 }
