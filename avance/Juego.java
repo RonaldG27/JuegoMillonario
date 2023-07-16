@@ -20,7 +20,6 @@ public class Juego {
     private Configuracion configuracion;
     private ArrayList<Pregunta> preguntas;
     
-    
     public Juego(Configuracion configuracion) {
         this.configuracion = configuracion;
     }
@@ -208,6 +207,22 @@ public class Juego {
         int indiceAleatorio = (int) (Math.random() * listaParticipantes.size());
         return listaParticipantes.get(indiceAleatorio);
     }
-    
-    
+
+
+    public Materia getMateria() {
+      return Materia;
+    }
+    public Paralelo getParalelo() {
+      return Paralelo;
+    }
+    public Participante getParticipante(){
+      return Participante; //revisar porque hay un tostring que retorna participante
+    }
+    public int getNivelMaximoAlcanzado() {
+      return nivelMaximoAlcanzado;
+    }
+    public int getPreguntasContestadas() {
+      return preguntasContestadas;
+    }
+    //comodines utilizados por ver
 }   
