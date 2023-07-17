@@ -42,9 +42,10 @@ public class Main {
 		}
 		Juego juego = new Juego(configuracion);
 		juego.iniciarJuego();
-		
-		
+
+		Reporte report = new Reporte(configuracion, juego);
+		report.mostrarReporte();
+
 	}
-	
 
 }
