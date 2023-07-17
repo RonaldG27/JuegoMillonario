@@ -53,7 +53,9 @@ public class Juego {
         System.out.println("Seleccione el paralelo: ");
         int indiceParalelo = sc.nextInt();
         
-        sc.nextLine();
+        paralelo = configuracion.getLista_paralelos().get(indiceMateria - 1);
+        
+        sc.nextLine();	
         
         
         
@@ -64,13 +66,12 @@ public class Juego {
         
         if (matriculaParticipante != 0) {
             participante = buscarPorMatricula(matriculaParticipante);
-            if (companero== null) {
+            if (participante == null) {
         		System.out.println("No se encontró al partipante con la matrícula ingresada. Se seleccionará uno aleatoriamente.");
         		participante = seleccionarAleatorio(); 
         		}
-        }
-        else {
-            participante = seleccionarAleatorio();   
+        }if (participante == null && matriculaParticipante == 0) {
+        	participante = seleccionarAleatorio();  
         }
         
         System.out.println("El participante seleccionado es: " + participante.getNombre());
@@ -103,6 +104,7 @@ public class Juego {
     public void mostrarPregunta() {
 
         int nivelActual = 1;
+        int preguntasCorrectas = 0;
         
         for (Pregunta pregunta : preguntas) {
         	
@@ -120,50 +122,91 @@ public class Juego {
                 System.out.println((i + 1) + ". " + opciones.get(indiceAleatorio));
                 opciones.remove(indiceAleatorio);
             }
+            System.out.println(5 + ". Usar comodin ");
             
-            System.out.print("Seleccione la opción correcta : ");
+            System.out.print("Seleccione la opción correcta o elija un comodin : ");
             
             int opcionrespuesta = sc.nextInt();
+            
+            
+            if(opcionrespuesta == 5 ){
+            	System.out.println("\nCOMODINES:");
+                System.out.println("1. 50/50");
+                System.out.println("2. Consulta al compañero");
+                System.out.println("3. Consulta al salón");
+                
+            	System.out.print("Seleccione el comodín que desea usar: ");
+                int opcionComodin = sc.nextInt();
+
+                switch (opcionComodin) {
+                    case 1:
+                        if (comodin.isComodin5050Disponible()) {
+                       	 comodin.usarComodin5050(opciones);
+                        } else {
+                            System.out.println("El comodín 50/50 ya fue utilizado.");
+                        }
+                        break;
+                    case 2:
+                        if (comodin.isComodinConsultaCompaneroDisponible()) {
+                           comodin.usarComodinConsultaCompanero(companero, opciones);
+                        } else {
+                            System.out.println("El comodín de consulta al compañero ya fue utilizado.");
+                        }
+                        break;
+                    case 3:
+                        if (comodin.isComodinConsultaSalonDisponible()) {
+                            comodin.usarComodinConsultaSalon(opciones);
+                        } else {
+                            System.out.println("El comodín de consulta al salón ya fue utilizado.");
+                        }
+                        break;
+                    default:
+                        System.out.println("Opción inválida.");
+                        break;
+                }
+       		 
+            }
+            for (int i = 0; i < opciones.size(); i++) {
+                System.out.println((i + 1) + ". " + opciones.get(i));
+            }
+            
+            
+          
             String respuestaCorrecta = pregunta.getRespuestaCorrecta();
-            int preguntasCorrectas = 0;
-            String respuestaSeleccionadaTexto = opciones.get(opcionrespuesta - 1);
+            String respuestaSeleccionadaTexto = opciones.get(opcionrespuesta);
             
             //si la repuesta es correcta sigue el juego si no finaliza
+            do {
+            	 if (respuestaSeleccionadaTexto.equals(respuestaCorrecta)) {
+ 	            	System.out.println("¡Correcto!"+"/n"+ "siguiente Prengunta");
+ 	                preguntasCorrectas++;
+ 	                nivelActual++;}
+            	 else {
+                 	System.out.println("¡Esto no fue correcto!"+"/n"+ "Intentar este juego de nuevo");
+                 	return;
+                 }
+            }
+            while(respuestaCorrecta == respuestaCorrecta);
+            	
+	            //si contesta todo termina el juego   	
             
-            if (respuestaSeleccionadaTexto .equals(respuestaCorrecta)) {
-            	System.out.println("¡Correcto!"+"/n"+ "siguiente Prengunta");
-                preguntasCorrectas++;
-                
-            } else {
-            	System.out.println("¡Esto no fue correcto!"+"/n"+ "Intentar este juego de nuevo");
-            	return;
-            }
-            //si contesta todo termina el juego   	
-            if (preguntasContestadas == preguntas.size()) {
-                System.out.println("¡Felicidades! Has respondido correctamente todas las preguntas del juego.");
-                nivelMaximoAlcanzado = nivelActual;
-                break;
-                
-            } else if(preguntasContestadas % preguntasPorNivel == 0) {
-            	System.out.println("¡Has alcanzado el nivel " + nivelActual + "!");
-                nivelActual++;
-            }
-
-            if (preguntasContestadas < preguntas.size()){
-                System.out.print("Presiona enter para continuar...");
-                sc.nextLine();
-            }
+	            if (preguntasContestadas == preguntas.size()) {
+	                System.out.println("¡Felicidades! Has respondido correctamente todas las preguntas del juego.");
+	                System.out.println("Ingrese el premio: ");
+	                premio = sc.nextLine();
+	                System.out.println("Recibe"+ premio);
+	                nivelMaximoAlcanzado = nivelActual;
+	                
+	            } else if(preguntasContestadas % preguntasPorNivel == 0) {
+	            	System.out.println("¡Has alcanzado el nivel " + nivelActual + "!");
+	                nivelActual++;
+	            }
+	            
+	            
         }
-
-        if (nivelMaximoAlcanzado > 0) {
-            System.out.println("Has alcanzado el nivel máximo: " + nivelMaximoAlcanzado);
-            System.out.print("Ingresa el premio que has ganado: ");
-            premio = sc.nextLine();
-        }
+	        
      }
-    
-    
-    
+        
     public void mostrarSiguientePregunta() {
         if (preguntaActualIndex < preguntas.size()) {
             Pregunta preguntaActual = preguntas.get(preguntaActualIndex);
@@ -177,7 +220,7 @@ public class Juego {
 
     public Participante buscarPorMatricula(int matricula) {
     	
-        for (Participante participante : configuracion.agregarEstudiantes()) {
+        for (Participante participante : paralelo.getParticipantes()) {
             if (participante.getMatricula() == matricula) {
                 return participante;
             }
@@ -186,10 +229,25 @@ public class Juego {
     }
     
     public Participante seleccionarAleatorio(){
-    	ArrayList<Participante> listaParticipantes = configuracion.agregarEstudiantes();
+    	ArrayList<Participante> listaParticipantes = paralelo.getParticipantes();
         int indiceAleatorio = (int) (Math.random() * listaParticipantes.size());
         return listaParticipantes.get(indiceAleatorio);
     }
-    
-    
+
+    public Materia getMateria() {
+      return materia;
+    }
+    public Paralelo getParalelo() {
+      return paralelo;
+    }
+    public Participante getParticipante(){
+      return participante; //revisar porque hay un tostring que retorna participante
+    }
+    public int getNivelMaximoAlcanzado() {
+      return nivelMaximoAlcanzado;
+    }
+    public int getPreguntasContestadas() {
+      return preguntasContestadas;
+    }
+   
 }   
