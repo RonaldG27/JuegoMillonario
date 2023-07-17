@@ -166,12 +166,7 @@ public class Juego {
                 }
        		 
             }
-            for (int i = 0; i < opciones.size(); i++) {
-                System.out.println((i + 1) + ". " + opciones.get(i));
-            }
-            
-            
-          
+        
             String respuestaCorrecta = pregunta.getRespuestaCorrecta();
             String respuestaSeleccionadaTexto = opciones.get(opcionrespuesta);
             
@@ -186,8 +181,7 @@ public class Juego {
                  	return;
                  }
             }
-            while(respuestaCorrecta == respuestaCorrecta);
-            	
+            while(respuestaCorrecta == respuestaSeleccionadaTexto);
 	            //si contesta todo termina el juego   	
             
 	            if (preguntasContestadas == preguntas.size()) {
