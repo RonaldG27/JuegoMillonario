@@ -5,97 +5,56 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Comodin {
-	private int cantidadDisponible;
-	private int cantidadUtilizada;
+	private boolean comodin5050Disponible;
+    private boolean comodinConsultaCompaneroDisponible;
+    private boolean comodinConsultaSalonDisponible;
 	private Pregunta pregunta;
 	private Participante companero;
 	
+	
 	Scanner sc = new Scanner(System.in);
 	
-	public void eliminarRespuestasIncorrectas(Pregunta pregunta) {
-		String respuestaInco1 = pregunta.getRespuestaInco1();
-		String respuestaInco2 = pregunta.getRespuestaInco2();
-		String respuestaInco3 = pregunta.getRespuestaInco2();
+	public Comodin() {
+        this.comodin5050Disponible = true;
+        this.comodinConsultaCompaneroDisponible = true;
+        this.comodinConsultaSalonDisponible = true;
+    }
+	
+	public boolean isComodin5050Disponible() {
+        return comodin5050Disponible;
+    }
 
-		Random random = new Random();
-        int respuestasEliminadas = 0;
+    public boolean isComodinConsultaCompaneroDisponible() {
+        return comodinConsultaCompaneroDisponible;
+    }
+
+    public boolean isComodinConsultaSalonDisponible() {
+        return comodinConsultaSalonDisponible;
+    }
+
+    public void usarComodin5050(ArrayList<String> opciones) {
+    	
+    	Random random = new Random();
+        int descartar1 = random.nextInt(opciones.size());
+        opciones.remove(descartar1);
+
+        int descartar2 = random.nextInt(opciones.size());
+        opciones.remove(descartar2);
         
-        while (respuestasEliminadas < 2 ) {
-            int indiceAleatorio = random.nextInt(4);
-
-            if (!pregunta.getRespuestaCorrecta().equalsIgnoreCase(pregunta.getRespuestas().get(indiceAleatorio))) {
-                pregunta.getRespuestas().remove(indiceAleatorio);
-                respuestasEliminadas++;
-            }
-        }
-        System.out.println("Respuestas incorrectas eliminadas.");
-	}
-	public void consultarCompanero() {
-        System.out.println("El compañero " + companero.getNombre());
-        
-       }
-    public String consultarRespuestaSalon() {
-        int maxConteo = 0;
-        String respuestaMasComun = "";
-
-        for (String respuesta : respuestasIncorrectas) {
-            int conteo = Collections.frequency(respuestas, respuesta);
-
-            if (conteo > maxConteo) {
-                maxConteo = conteo;
-                respuestaMasComun = respuesta;
-            }
-        }
-
-        return respuestaMasComun;
+        comodin5050Disponible = false;
     }
 
-    public Comodin(int cantidadDisponible) {
-        this.cantidadDisponible = 3;
-        this.cantidadUtilizada = 0;
+    public void usarComodinConsultaCompanero(Participante companero,ArrayList<String> opciones ) {
+    	System.out.println("Consultando ingrese la respuesta del compañero");
+    	String respuestaCorrecta = sc.nextLine();
+    	System.out.println(companero + " dice que la respuesta es: " + respuestaCorrecta);
+        comodinConsultaCompaneroDisponible = false;
     }
 
-    public int getCantidadDisponible() {
-        return cantidadDisponible;
+    public void usarComodinConsultaSalon(ArrayList<String> opciones) {
+    	System.out.println("Consultando ingrese la respuesta del salon");
+    	String respuestaCorrecta = sc.nextLine();
+    	System.out.println("La mayoria del salon dice que la respuesta es: " + respuestaCorrecta);
+        comodinConsultaSalonDisponible = false;
     }
-
-    public int getCantidadUtilizada() {
-        return cantidadUtilizada;
-    }
-    
-    
-
-    public boolean usarComodin() {
-    	if (cantidadDisponible > 0) {
-    		cantidadDisponible--;
-
-            System.out.println("\nComodines disponibles: " + cantidadDisponible);
-            System.out.println("Comodines: 50/50 (1), Consulta al compañero (2), consulta al salon (3)");
-
-            Scanner sc = new Scanner(System.in);
-            System.out.print("Ingrese el número del comodín a utilizar: ");
-            int comodin = sc.nextInt();
-            sc.nextLine();
-
-            switch (comodin) {
-                case 1:
-                    eliminarRespuestasIncorrectas(pregunta);
-                    break;
-                case 2:
-                	consultarCompanero();
-                    break;
-                case 3:
-                	consultarRespuestaSalon();
-                default:
-                    System.out.println("Comodín inválido.");
-                    break;
-            }
-        } else {
-            System.out.println("No tienes comodines disponibles.");
-       
-        if (cantidadDisponible > cantidadUtilizada) {
-            cantidadUtilizada++;
-            System.out.println("¡Has utilizado un comodín!");
-            return true;
-        }
 }

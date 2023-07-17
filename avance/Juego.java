@@ -20,6 +20,7 @@ public class Juego {
     private Configuracion configuracion;
     private ArrayList<Pregunta> preguntas;
     
+    
     public Juego(Configuracion configuracion) {
         this.configuracion = configuracion;
     }
@@ -52,7 +53,9 @@ public class Juego {
         System.out.println("Seleccione el paralelo: ");
         int indiceParalelo = sc.nextInt();
         
-        sc.nextLine();
+        paralelo = configuracion.getLista_paralelos().get(indiceMateria - 1);
+        
+        sc.nextLine();	
         
         
         
@@ -90,10 +93,6 @@ public class Juego {
         }
         if (companero == null && matriculaCompanero == 0) {
         	companero = seleccionarAleatorio();
-        	if(participante == companero) {
-        		
-        		companero = seleccionarAleatorio(); 
-        	}
         }
       
         System.out.println("Compañero de apoyo: " + companero.getNombre());
@@ -123,50 +122,71 @@ public class Juego {
                 System.out.println((i + 1) + ". " + opciones.get(indiceAleatorio));
                 opciones.remove(indiceAleatorio);
             }
+            System.out.println(5+". Usar comodin ");
             
-            System.out.print("Seleccione la opción correcta : ");
+            System.out.print("Seleccione la opción correcta o elija un comodin : ");
             
             int opcionrespuesta = sc.nextInt();
+            
             String respuestaCorrecta = pregunta.getRespuestaCorrecta();
             int preguntasCorrectas = 0;
-            String respuestaSeleccionadaTexto = opciones.get(opcionrespuesta - 1);
+            String respuestaSeleccionadaTexto = opciones.get(opcionrespuesta);
             
             //si la repuesta es correcta sigue el juego si no finaliza
+            do {
+            	 if (respuestaSeleccionadaTexto.equals(respuestaCorrecta)) {
+ 	            	System.out.println("¡Correcto!"+"/n"+ "siguiente Prengunta");
+ 	                preguntasCorrectas++;
+ 	                nivelActual++;
+ 	                
+ 	            }
+            	 else if(opcionrespuesta == 5 ){
+            		 System.out.println("\nCOMODINES :" + "\n1. 50/50" + "\n2. Consulta al compañero" + "\n3. Consulta al salón");
+            		 int opcion = sc.nextInt();
+            		 
+            		 switch (opcion) {
+            			case 1:
+            				comodin.usarComodin5050(opciones);
+            				
+            			case 2:
+            				comodin.usarComodinConsultaCompanero(companero,opciones);
+
+            			case 3:
+            				
+            				comodin.usarComodinConsultaSalon(opciones);
+            			}
+            		 
+ 	            }
+            	 else {
+ 	            	System.out.println("¡Esto no fue correcto!"+"/n"+ "Intentar este juego de nuevo");
+ 	            	return;
+ 	            }
+            	
+            }
+            while(respuestaCorrecta == respuestaCorrecta);
+            	
+	            //si contesta todo termina el juego   	
             
-            if (respuestaSeleccionadaTexto .equals(respuestaCorrecta)) {
-            	System.out.println("¡Correcto!"+"/n"+ "siguiente Prengunta");
-                preguntasCorrectas++;
-                
-            } else {
-            	System.out.println("¡Esto no fue correcto!"+"/n"+ "Intentar este juego de nuevo");
-            	return;
-            }
-            //si contesta todo termina el juego   	
-            if (preguntasContestadas == preguntas.size()) {
-                System.out.println("¡Felicidades! Has respondido correctamente todas las preguntas del juego.");
-                nivelMaximoAlcanzado = nivelActual;
-                break;
-                
-            } else if(preguntasContestadas % preguntasPorNivel == 0) {
-            	System.out.println("¡Has alcanzado el nivel " + nivelActual + "!");
-                nivelActual++;
-            }
-
-            if (preguntasContestadas < preguntas.size()){
-                System.out.print("Presiona enter para continuar...");
-                sc.nextLine();
-            }
-        }
-
-        if (nivelMaximoAlcanzado > 0) {
-            System.out.println("Has alcanzado el nivel máximo: " + nivelMaximoAlcanzado);
-            System.out.print("Ingresa el premio que has ganado: ");
-            premio = sc.nextLine();
-        }
+	            if (preguntasContestadas == preguntas.size()) {
+	                System.out.println("¡Felicidades! Has respondido correctamente todas las preguntas del juego.");
+	                nivelMaximoAlcanzado = nivelActual;
+	                
+	            } else if(preguntasContestadas % preguntasPorNivel == 0) {
+	            	System.out.println("¡Has alcanzado el nivel " + nivelActual + "!");
+	                nivelActual++;
+	            }
+	            
+	            
+	        }
+	
+	        if (nivelMaximoAlcanzado > 0) {
+	            System.out.println("Has alcanzado el nivel máximo: " + nivelMaximoAlcanzado);
+	            System.out.print("Ingresa el premio que has ganado: ");
+	            premio = sc.nextLine();
+	        }
+	        
      }
-    
-    
-    
+        
     public void mostrarSiguientePregunta() {
         if (preguntaActualIndex < preguntas.size()) {
             Pregunta preguntaActual = preguntas.get(preguntaActualIndex);
@@ -177,24 +197,10 @@ public class Juego {
             System.out.println("No hay más preguntas para mostrar");
         }
     }
-    public ArrayList<Participante> cargarParticipantes() {
 
-		ArrayList<Participante> listParticipantes = new ArrayList<>();
-
-		listParticipantes.add(new Participante(202104816,"AZU PERLAZA NICOLE FERNANDA", "nfazu@espol.edu.ec"));
-		listParticipantes.add(new Participante(202100772,"GUAMAN QUIJIJE RONALD STEVEN", "rsguaman@espol.edu.ec"));
-		listParticipantes.add(new Participante(202207726,"POVEDA QUIMIZ MICHAEL CRESCENCIO","mcpoveda@espol.edu.ec"));
-		listParticipantes.add(new Participante(202006086,"CABRERA VIVANCO ALVARO DAVID", "alvdcabr@espol.edu.ec"));
-		listParticipantes.add(new Participante(20207924,"RIVAS ABAD BRAULIO DE JESUS", "brarabad@espol.edu.ec"));
-		listParticipantes.add(new Participante(202106050,"ZAMORA CEDEÑO JORDY STEVEN", "jszamora@espol.edu.ec"));
-
-		return listParticipantes;
-	}
-
-    
     public Participante buscarPorMatricula(int matricula) {
     	
-        for (Participante participante : cargarParticipantes()) {
+        for (Participante participante : paralelo.getParticipantes()) {
             if (participante.getMatricula() == matricula) {
                 return participante;
             }
@@ -203,20 +209,19 @@ public class Juego {
     }
     
     public Participante seleccionarAleatorio(){
-    	ArrayList<Participante> listaParticipantes = cargarParticipantes();
+    	ArrayList<Participante> listaParticipantes = paralelo.getParticipantes();
         int indiceAleatorio = (int) (Math.random() * listaParticipantes.size());
         return listaParticipantes.get(indiceAleatorio);
     }
 
-
     public Materia getMateria() {
-      return Materia;
+      return materia;
     }
     public Paralelo getParalelo() {
-      return Paralelo;
+      return paralelo;
     }
     public Participante getParticipante(){
-      return Participante; //revisar porque hay un tostring que retorna participante
+      return participante; //revisar porque hay un tostring que retorna participante
     }
     public int getNivelMaximoAlcanzado() {
       return nivelMaximoAlcanzado;
@@ -224,5 +229,5 @@ public class Juego {
     public int getPreguntasContestadas() {
       return preguntasContestadas;
     }
-    //comodines utilizados por ver
+   
 }   
